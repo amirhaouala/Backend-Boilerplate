@@ -723,7 +723,7 @@ paths:
       responses:
         302:
           $ref: "#/components/responses/OAuthAuthorizeRedirectResponse"
-    
+
   /user/identities/{identityId}:
     parameters:
       - name: identityId
@@ -787,7 +787,7 @@ paths:
                   summary: validation_failed
                   value:
                     error_code: validation_failed
-        422: 
+        422:
           description: Unprocessable entity
           content:
             application/json:
@@ -932,8 +932,8 @@ paths:
             application/json:
               schema:
                 oneOf:
-                  - $ref: '#/components/schemas/TOTPPhoneChallengeResponse'
-                  - $ref: '#/components/schemas/WebAuthnChallengeResponse'
+                  - $ref: "#/components/schemas/TOTPPhoneChallengeResponse"
+                  - $ref: "#/components/schemas/WebAuthnChallengeResponse"
         400:
           $ref: "#/components/responses/BadRequestResponse"
         429:
@@ -1786,10 +1786,10 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorSchema"
 
-  /health:
+  /scratchpad:
     get:
-      summary: Service healthcheck.
-      description: Ping this endpoint to receive information about the health of the service.
+      summary: Scratchpad endpoint.
+      description: Scratchpad endpoint.
       tags:
         - general
       security:
@@ -1797,34 +1797,18 @@ paths:
       responses:
         200:
           description: >
-            Service is healthy.
+            Scratchpad endpoint.
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  version:
-                    type: string
-                    example: v2.40.1
                   name:
                     type: string
-                    example: GoTrue
+                    example: Scratchpad
                   description:
                     type: string
-                    example: GoTrue is a user registration and authentication API
-
-        500:
-          description: >
-            Service is not healthy. Retriable with exponential backoff.
-        502:
-          description: >
-            Service is not healthy: infrastructure issue. Usually not retriable.
-        503:
-          description: >
-            Service is not healthy: infrastrucutre issue. Retriable with exponential backoff.
-        504:
-          description: >
-            Service is not healthy: request timed out. Retriable with exponential backoff.
+                    example: Scratchpad endpoint
 
   /settings:
     get:
@@ -2154,7 +2138,6 @@ components:
           format: date-time
           nullable: true
 
-
     IdentitySchema:
       type: object
       properties:
@@ -2226,9 +2209,9 @@ components:
           example: 1674840917
           description: UNIX seconds of the timestamp past which the challenge should not be verified.
         credential_request_options:
-          $ref: '#/components/schemas/CredentialRequestOptions'
+          $ref: "#/components/schemas/CredentialRequestOptions"
         credential_creation_options:
-          $ref: '#/components/schemas/CredentialCreationOptions'
+          $ref: "#/components/schemas/CredentialCreationOptions"
 
     CredentialAssertion:
       type: object
@@ -2357,7 +2340,7 @@ components:
         allowCredentials:
           type: array
           items:
-            $ref: '#/components/schemas/PublicKeyCredentialDescriptor'
+            $ref: "#/components/schemas/PublicKeyCredentialDescriptor"
         userVerification:
           type: string
           enum: [required, preferred, discouraged]
@@ -2375,7 +2358,7 @@ components:
             name:
               type: string
         user:
-          $ref: '#/components/schemas/UserSchema'
+          $ref: "#/components/schemas/UserSchema"
 
         challenge:
           type: string
@@ -2397,7 +2380,7 @@ components:
         excludeCredentials:
           type: array
           items:
-            $ref: '#/components/schemas/PublicKeyCredentialDescriptor'
+            $ref: "#/components/schemas/PublicKeyCredentialDescriptor"
         authenticatorSelection:
           type: object
           properties:

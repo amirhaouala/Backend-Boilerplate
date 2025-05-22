@@ -138,7 +138,7 @@ func NewAPIWithVersion(globalConfig *conf.GlobalConfiguration, db *storage.Conne
 		r.UseBypass(api.databaseCleanup(cleanup))
 	}
 
-	r.Get("/health", api.HealthCheck)
+	r.Get("/scratchpad", api.Scratchpad)
 	r.Get("/.well-known/jwks.json", api.Jwks)
 
 	r.Route("/callback", func(r *router) {
@@ -309,17 +309,15 @@ func NewAPIWithVersion(globalConfig *conf.GlobalConfiguration, db *storage.Conne
 }
 
 type HealthCheckResponse struct {
-	Version     string `json:"version"`
 	Name        string `json:"name"`
 	Description string `json:"description"`
 }
 
-// HealthCheck endpoint indicates if the gotrue api service is available
-func (a *API) HealthCheck(w http.ResponseWriter, r *http.Request) error {
+// Scratchpad endpoint indicates if the gotrue api service is available
+func (a *API) Scratchpad(w http.ResponseWriter, r *http.Request) error {
 	return sendJSON(w, http.StatusOK, HealthCheckResponse{
-		Version:     a.version,
-		Name:        "GoTrue",
-		Description: "GoTrue is a user registration and authentication API",
+		Name:        "Scratchpad",
+		Description: "Scratchpad endpoint",
 	})
 }
 
