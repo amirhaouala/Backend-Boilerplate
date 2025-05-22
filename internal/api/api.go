@@ -153,7 +153,7 @@ func NewAPIWithVersion(globalConfig *conf.GlobalConfiguration, db *storage.Conne
 
 		r.Use(api.isValidExternalHost)
 
-		r.Get("/settings", api.Settings)
+		// r.Get("/settings", api.Settings)
 
 		r.Get("/authorize", api.ExternalProviderRedirect)
 
@@ -308,14 +308,14 @@ func NewAPIWithVersion(globalConfig *conf.GlobalConfiguration, db *storage.Conne
 	return api
 }
 
-type HealthCheckResponse struct {
+type ScratchpadResponse struct {
 	Name        string `json:"name"`
 	Description string `json:"description"`
 }
 
 // Scratchpad endpoint indicates if the gotrue api service is available
 func (a *API) Scratchpad(w http.ResponseWriter, r *http.Request) error {
-	return sendJSON(w, http.StatusOK, HealthCheckResponse{
+	return sendJSON(w, http.StatusOK, ScratchpadResponse{
 		Name:        "Scratchpad",
 		Description: "Scratchpad endpoint",
 	})
