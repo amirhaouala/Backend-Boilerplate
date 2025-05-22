@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS {{ index .Options "Namespace" }}.users (
 	email varchar(255) NULL UNIQUE,
 	encrypted_password varchar(255) NULL,
 	confirmed_at timestamptz NULL,
+	confirmed bool NULL,
 	invited_at timestamptz NULL,
 	confirmation_token varchar(255) NULL,
 	confirmation_sent_at timestamptz NULL,

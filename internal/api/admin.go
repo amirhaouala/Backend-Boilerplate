@@ -22,6 +22,7 @@ import (
 type AdminUserParams struct {
 	Id           string                 `json:"id"`
 	Aud          string                 `json:"aud"`
+	Confirmed    *bool                  `json:"confirmed"`
 	Role         string                 `json:"role"`
 	Email        string                 `json:"email"`
 	Phone        string                 `json:"phone"`
@@ -189,6 +190,12 @@ func (a *API) adminUserUpdate(w http.ResponseWriter, r *http.Request) error {
 	}
 
 	err = db.Transaction(func(tx *storage.Connection) error {
+		if params.Confirmed != nil {
+			if terr := user.SetConfirmed(tx, params.Confirmed); terr != nil {
+				return terr
+			}
+		}
+
 		if params.Role != "" {
 			if terr := user.SetRole(tx, params.Role); terr != nil {
 				return terr

@@ -1949,6 +1949,8 @@ components:
           deprecated: true
         role:
           type: string
+        confirmed:
+          type: boolean
         email:
           type: string
           description: User's primary contact email. In most cases you can uniquely identify a user by their email address, but not in all cases.

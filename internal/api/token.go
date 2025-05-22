@@ -222,6 +222,10 @@ func (a *API) ResourceOwnerPasswordGrant(ctx context.Context, w http.ResponseWri
 		return apierrors.NewBadRequestError(apierrors.ErrorCodePhoneNotConfirmed, "Phone not confirmed")
 	}
 
+	if !user.Confirmed {
+		return apierrors.NewBadRequestError(apierrors.ErrorCodePhoneNotConfirmed, "User not confirmed by the admin")
+	}
+
 	var token *AccessTokenResponse
 	err = db.Transaction(func(tx *storage.Connection) error {
 		var terr error

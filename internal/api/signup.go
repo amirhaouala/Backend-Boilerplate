@@ -11,7 +11,6 @@ import (
 	"github.com/supabase/auth/internal/api/apierrors"
 	"github.com/supabase/auth/internal/api/provider"
 	"github.com/supabase/auth/internal/api/sms_provider"
-	"github.com/supabase/auth/internal/metering"
 	"github.com/supabase/auth/internal/models"
 	"github.com/supabase/auth/internal/storage"
 )
@@ -28,6 +27,10 @@ type SignupParams struct {
 	Channel             string                 `json:"channel"`
 	CodeChallengeMethod string                 `json:"code_challenge_method"`
 	CodeChallenge       string                 `json:"code_challenge"`
+}
+
+type signUpResponse struct {
+	Msg string
 }
 
 func (a *API) validateSignupParams(ctx context.Context, p *SignupParams) error {
@@ -302,7 +305,7 @@ func (a *API) Signup(w http.ResponseWriter, r *http.Request) error {
 
 	// handles case where Mailer.Autoconfirm is true or Phone.Autoconfirm is true
 	if user.IsConfirmed() || user.IsPhoneConfirmed() {
-		var token *AccessTokenResponse
+		// var token *AccessTokenResponse
 		err = db.Transaction(func(tx *storage.Connection) error {
 			var terr error
 			if terr = models.NewAuditLogEntry(r, tx, user, models.LoginAction, "", map[string]interface{}{
@@ -310,18 +313,21 @@ func (a *API) Signup(w http.ResponseWriter, r *http.Request) error {
 			}); terr != nil {
 				return terr
 			}
-			token, terr = a.issueRefreshToken(r, tx, user, models.PasswordGrant, grantParams)
+			// token, terr = a.issueRefreshToken(r, tx, user, models.PasswordGrant, grantParams)
 
-			if terr != nil {
-				return terr
-			}
+			// if terr != nil {
+			// 	return terr
+			// }
 			return nil
 		})
 		if err != nil {
 			return err
 		}
-		metering.RecordLogin("password", user.ID)
-		return sendJSON(w, http.StatusOK, token)
+		// metering.RecordLogin("password", user.ID)
+		return sendJSON(w, http.StatusOK, signUpResponse{
+			Msg: "SignUp successfull, you'll be notified when account is activated",
+		})
+		// return sendJSON(w, http.StatusOK, token)
 	}
 	if user.HasBeenInvited() {
 		// Remove sensitive fields
