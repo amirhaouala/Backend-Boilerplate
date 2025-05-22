@@ -18,6 +18,7 @@ import (
 
 // SignupParams are the parameters the Signup endpoint accepts
 type SignupParams struct {
+	Name                string                 `json:"name"`
 	Email               string                 `json:"email"`
 	Phone               string                 `json:"phone"`
 	Password            string                 `json:"password"`
@@ -75,15 +76,15 @@ func (p *SignupParams) ConfigureDefaults() {
 func (params *SignupParams) ToUserModel(isSSOUser bool) (user *models.User, err error) {
 	switch params.Provider {
 	case "email":
-		user, err = models.NewUser("", params.Email, params.Password, params.Aud, params.Data)
+		user, err = models.NewUser(params.Name, "", params.Email, params.Password, params.Aud, params.Data)
 	case "phone":
-		user, err = models.NewUser(params.Phone, "", params.Password, params.Aud, params.Data)
+		user, err = models.NewUser(params.Name, params.Phone, "", params.Password, params.Aud, params.Data)
 	case "anonymous":
-		user, err = models.NewUser("", "", "", params.Aud, params.Data)
+		user, err = models.NewUser(params.Name, "", "", "", params.Aud, params.Data)
 		user.IsAnonymous = true
 	default:
 		// handles external provider case
-		user, err = models.NewUser("", params.Email, params.Password, params.Aud, params.Data)
+		user, err = models.NewUser(params.Name, "", params.Email, params.Password, params.Aud, params.Data)
 	}
 	if err != nil {
 		err = apierrors.NewInternalServerError("Database error creating user").WithInternalError(err)

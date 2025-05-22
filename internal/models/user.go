@@ -24,6 +24,7 @@ type User struct {
 
 	Aud       string             `json:"aud" db:"aud"`
 	Role      string             `json:"role" db:"role"`
+	Name      string             `json:"name" db:"name"`
 	Email     storage.NullString `json:"email" db:"email"`
 	IsSSOUser bool               `json:"-" db:"is_sso_user"`
 
@@ -73,7 +74,7 @@ type User struct {
 	DONTUSEINSTANCEID uuid.UUID `json:"-" db:"instance_id"`
 }
 
-func NewUserWithPasswordHash(phone, email, passwordHash, aud string, userData map[string]interface{}) (*User, error) {
+func NewUserWithPasswordHash(name, phone, email, passwordHash, aud string, userData map[string]interface{}) (*User, error) {
 	if strings.HasPrefix(passwordHash, crypto.Argon2Prefix) {
 		_, err := crypto.ParseArgon2Hash(passwordHash)
 		if err != nil {
@@ -95,6 +96,7 @@ func NewUserWithPasswordHash(phone, email, passwordHash, aud string, userData ma
 	user := &User{
 		ID:                id,
 		Aud:               aud,
+		Name:              name,
 		Email:             storage.NullString(strings.ToLower(email)),
 		Phone:             storage.NullString(phone),
 		UserMetaData:      userData,
@@ -104,7 +106,7 @@ func NewUserWithPasswordHash(phone, email, passwordHash, aud string, userData ma
 }
 
 // NewUser initializes a new user from an email, password and user data.
-func NewUser(phone, email, password, aud string, userData map[string]interface{}) (*User, error) {
+func NewUser(name string, phone, email, password, aud string, userData map[string]interface{}) (*User, error) {
 	passwordHash := ""
 
 	if password != "" {
@@ -124,6 +126,7 @@ func NewUser(phone, email, password, aud string, userData map[string]interface{}
 	user := &User{
 		ID:                id,
 		Aud:               aud,
+		Name:              name,
 		Email:             storage.NullString(strings.ToLower(email)),
 		Phone:             storage.NullString(phone),
 		UserMetaData:      userData,

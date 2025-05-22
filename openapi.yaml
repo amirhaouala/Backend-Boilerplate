@@ -30,6 +30,7 @@ externalDocs:
   description: Learn more about Supabase Auth
   url: https://supabase.com/docs/guides/auth/overview
 servers:
+  - url: "http://localhost:9999/"
   - url: "https://{project}.supabase.co/auth/v1"
     variables:
       project:
@@ -352,19 +353,23 @@ paths:
             examples:
               "email+password":
                 value:
+                  name: user
                   email: user@example.com
                   password: password1
               "phone+password":
                 value:
+                  name: user
                   phone: "+1234567890"
                   password: password1
               "phone+password+whatsapp":
                 value:
+                  name: user
                   phone: "+1234567890"
                   password: password1
                   channel: whatsapp
               "email+password+pkce":
                 value:
+                  name: user
                   email: user@example.com
                   password: password1
                   code_challenge_method: s256
@@ -372,6 +377,8 @@ paths:
             schema:
               type: object
               properties:
+                name:
+                  type: string
                 email:
                   type: string
                   format: email

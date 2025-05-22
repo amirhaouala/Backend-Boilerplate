@@ -5,6 +5,7 @@ CREATE TABLE IF NOT EXISTS {{ index .Options "Namespace" }}.users (
 	id uuid NOT NULL UNIQUE,
 	aud varchar(255) NULL,
 	"role" varchar(255) NULL,
+	name varchar(255) NULL,
 	email varchar(255) NULL UNIQUE,
 	encrypted_password varchar(255) NULL,
 	confirmed_at timestamptz NULL,

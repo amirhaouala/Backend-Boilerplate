@@ -383,9 +383,9 @@ func (a *API) adminUserCreate(w http.ResponseWriter, r *http.Request) error {
 
 	var user *models.User
 	if params.PasswordHash != "" {
-		user, err = models.NewUserWithPasswordHash(params.Phone, params.Email, params.PasswordHash, aud, params.UserMetaData)
+		user, err = models.NewUserWithPasswordHash("", params.Phone, params.Email, params.PasswordHash, aud, params.UserMetaData)
 	} else {
-		user, err = models.NewUser(params.Phone, params.Email, *params.Password, aud, params.UserMetaData)
+		user, err = models.NewUser("", params.Phone, params.Email, *params.Password, aud, params.UserMetaData)
 	}
 
 	if err != nil {
