@@ -22,11 +22,12 @@ import (
 type User struct {
 	ID uuid.UUID `json:"id" db:"id"`
 
-	Aud       string             `json:"aud" db:"aud"`
-	Role      string             `json:"role" db:"role"`
-	Name      string             `json:"name" db:"name"`
-	Email     storage.NullString `json:"email" db:"email"`
-	IsSSOUser bool               `json:"-" db:"is_sso_user"`
+	Aud            string             `json:"aud" db:"aud"`
+	Role           string             `json:"role" db:"role"`
+	Name           string             `json:"name" db:"name"`
+	Email          storage.NullString `json:"email" db:"email"`
+	PreferDarkMode *bool              `json:"prefer_dark_mode,omitempty" db:"prefer_dark_mode"`
+	IsSSOUser      bool               `json:"-" db:"is_sso_user"`
 
 	EncryptedPassword *string    `json:"-" db:"encrypted_password"`
 	EmailConfirmedAt  *time.Time `json:"email_confirmed_at,omitempty" db:"email_confirmed_at"`

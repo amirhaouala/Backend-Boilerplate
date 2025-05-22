@@ -21,6 +21,7 @@ CREATE TABLE IF NOT EXISTS {{ index .Options "Namespace" }}.users (
 	raw_app_meta_data jsonb NULL,
 	raw_user_meta_data jsonb NULL,
 	is_super_admin bool NULL,
+	prefer_dark_mode bool NULL,
 	created_at timestamptz NULL,
 	updated_at timestamptz NULL,
 	CONSTRAINT users_pkey PRIMARY KEY (id)

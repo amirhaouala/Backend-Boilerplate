@@ -2,6 +2,7 @@ package api
 
 import (
 	"context"
+	"log"
 	"net/http"
 	"time"
 
@@ -16,6 +17,7 @@ import (
 // UserUpdateParams parameters for updating a user
 type UserUpdateParams struct {
 	Email               string                 `json:"email"`
+	PreferDarkMode      *bool                  `json:"prefer_dark_mode"`
 	Password            *string                `json:"password"`
 	Nonce               string                 `json:"nonce"`
 	Data                map[string]interface{} `json:"data"`
@@ -87,6 +89,8 @@ func (a *API) UserUpdate(w http.ResponseWriter, r *http.Request) error {
 	if err := retrieveRequestParams(r, params); err != nil {
 		return err
 	}
+	log.Println("params")
+	log.Println(params)
 
 	user := getUser(ctx)
 	session := getSession(ctx)
@@ -183,6 +187,14 @@ func (a *API) UserUpdate(w http.ResponseWriter, r *http.Request) error {
 
 	err := db.Transaction(func(tx *storage.Connection) error {
 		var terr error
+
+		if params.PreferDarkMode != nil {
+			user.PreferDarkMode = params.PreferDarkMode
+			log.Println("user.PreferDarkMode")
+			log.Println(*user.PreferDarkMode)
+			tx.UpdateOnly(user, "prefer_dark_mode")
+		}
+
 		if params.Password != nil {
 			var sessionID *uuid.UUID
 			if session != nil {
@@ -252,6 +264,8 @@ func (a *API) UserUpdate(w http.ResponseWriter, r *http.Request) error {
 				}
 			}
 		}
+		log.Println("user.PreferDarkMode")
+		log.Println(*user.PreferDarkMode)
 
 		if terr = models.NewAuditLogEntry(r, tx, user, models.UserModifiedAction, "", nil); terr != nil {
 			return apierrors.NewInternalServerError("Error recording audit log entry").WithInternalError(terr)
