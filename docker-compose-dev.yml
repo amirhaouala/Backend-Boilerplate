@@ -29,7 +29,7 @@ services:
       - POSTGRES_PASSWORD=root
       - POSTGRES_DB=postgres
       # sets the schema name, this should match the `NAMESPACE` env var set in your .env file
-      - DB_NAMESPACE=auth
+      - DB_NAMESPACE=back
   pgadmin-dev:
     container_name: back_pgadmin_dev
     depends_on:

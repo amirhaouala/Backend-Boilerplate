@@ -7,7 +7,7 @@ exception
     when duplicate_object then null;
 end $$;
 
--- auth.mfa_factors definition
+-- back.mfa_factors definition
 create table if not exists {{ index .Options "Namespace" }}.mfa_factors(
        id uuid not null,
        user_id uuid not null,
@@ -20,11 +20,11 @@ create table if not exists {{ index .Options "Namespace" }}.mfa_factors(
        constraint mfa_factors_pkey primary key(id),
        constraint mfa_factors_user_id_fkey foreign key (user_id) references {{ index .Options "Namespace" }}.users(id) on delete cascade
 );
-comment on table {{ index .Options "Namespace" }}.mfa_factors is 'auth: stores metadata about factors';
+comment on table {{ index .Options "Namespace" }}.mfa_factors is 'back: stores metadata about factors';
 
 create unique index if not exists mfa_factors_user_friendly_name_unique on {{ index .Options "Namespace" }}.mfa_factors (friendly_name, user_id) where trim(friendly_name) <> '';
 
--- auth.mfa_challenges definition
+-- back.mfa_challenges definition
 create table if not exists {{ index .Options "Namespace" }}.mfa_challenges(
        id uuid not null,
        factor_id uuid not null,
@@ -34,7 +34,7 @@ create table if not exists {{ index .Options "Namespace" }}.mfa_challenges(
        constraint mfa_challenges_pkey primary key (id),
        constraint mfa_challenges_auth_factor_id_fkey foreign key (factor_id) references {{ index .Options "Namespace" }}.mfa_factors(id) on delete cascade
 );
-comment on table {{ index .Options "Namespace" }}.mfa_challenges is 'auth: stores metadata about challenge requests made';
+comment on table {{ index .Options "Namespace" }}.mfa_challenges is 'back: stores metadata about challenge requests made';
 
 
 
@@ -47,4 +47,4 @@ create table if not exists {{ index .Options "Namespace" }}.mfa_amr_claims(
     constraint mfa_amr_claims_session_id_authentication_method_pkey unique(session_id, authentication_method),
     constraint mfa_amr_claims_session_id_fkey foreign key(session_id) references {{ index .Options "Namespace" }}.sessions(id) on delete cascade
 );
-comment on table {{ index .Options "Namespace" }}.mfa_amr_claims is 'auth: stores authenticator method reference claims for multi factor authentication';
+comment on table {{ index .Options "Namespace" }}.mfa_amr_claims is 'back: stores authenticator method reference claims for multi factor authentication';

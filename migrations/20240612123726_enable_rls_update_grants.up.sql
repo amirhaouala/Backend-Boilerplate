@@ -1,5 +1,5 @@
 do $$ begin
-    -- enable RLS policy on auth tables
+    -- enable RLS policy on back tables
     alter table {{ index .Options "Namespace" }}.schema_migrations enable row level security;
     alter table {{ index .Options "Namespace" }}.instances enable row level security;
     alter table {{ index .Options "Namespace" }}.users enable row level security;
@@ -17,6 +17,7 @@ do $$ begin
     alter table {{ index .Options "Namespace" }}.identities enable row level security;
     alter table {{ index .Options "Namespace" }}.one_time_tokens enable row level security;
     -- allow postgres role to select from auth tables and allow it to grant select to other roles
+    -- allow postgres role to select from back tables and allow it to grant select to other roles
     grant select on {{ index .Options "Namespace" }}.schema_migrations to postgres with grant option;
     grant select on {{ index .Options "Namespace" }}.instances to postgres with grant option;
     grant select on {{ index .Options "Namespace" }}.users to postgres with grant option;

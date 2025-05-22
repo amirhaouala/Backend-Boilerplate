@@ -11,8 +11,8 @@ end $$;
 alter table only {{ index .Options "Namespace" }}.identities
   add column if not exists email text generated always as (lower(identity_data->>'email')) stored;
 
-comment on column {{ index .Options "Namespace" }}.identities.email is 'Auth: Email is a generated column that references the optional email property in the identity_data';
+comment on column {{ index .Options "Namespace" }}.identities.email is 'Back: Email is a generated column that references the optional email property in the identity_data';
 
 create index if not exists identities_email_idx on {{ index .Options "Namespace" }}.identities (email text_pattern_ops);
 
-comment on index {{ index .Options "Namespace" }}.identities_email_idx is 'Auth: Ensures indexed queries on the email column';
+comment on index {{ index .Options "Namespace" }}.identities_email_idx is 'Back: Ensures indexed queries on the email column';

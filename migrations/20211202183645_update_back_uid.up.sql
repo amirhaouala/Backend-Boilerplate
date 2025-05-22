@@ -1,4 +1,4 @@
--- update auth.uid()
+-- update back.uid()
 
 create or replace function {{ index .Options "Namespace" }}.uid()
 returns uuid

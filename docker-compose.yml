@@ -33,7 +33,7 @@ services:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_DB=postgres
       # sets the schema name, this should match the `NAMESPACE` env var set in your .env file
-      - DB_NAMESPACE=auth
+      - DB_NAMESPACE=back
     restart: unless-stopped
 volumes:
   postgres_data:

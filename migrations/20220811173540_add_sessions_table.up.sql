@@ -7,7 +7,7 @@ create table if not exists {{ index .Options "Namespace" }}.sessions (
     constraint sessions_pkey primary key (id),
     constraint sessions_user_id_fkey foreign key (user_id) references {{ index .Options "Namespace" }}.users(id) on delete cascade
 );
-comment on table {{ index .Options "Namespace" }}.sessions is 'Auth: Stores session data associated to a user.';
+comment on table {{ index .Options "Namespace" }}.sessions is 'Back: Stores session data associated to a user.';
 
 alter table {{ index .Options "Namespace" }}.refresh_tokens
 add column if not exists session_id uuid null;

@@ -11,4 +11,4 @@ CREATE TABLE IF NOT EXISTS {{ index .Options "Namespace" }}.identities (
     CONSTRAINT identities_pkey PRIMARY KEY (provider, id),
     CONSTRAINT identities_user_id_fkey FOREIGN KEY (user_id) REFERENCES {{ index .Options "Namespace" }}.users(id) ON DELETE CASCADE
 );
-COMMENT ON TABLE {{ index .Options "Namespace" }}.identities is 'Auth: Stores identities associated to a user.';
+COMMENT ON TABLE {{ index .Options "Namespace" }}.identities is 'Back: Stores identities associated to a user.';

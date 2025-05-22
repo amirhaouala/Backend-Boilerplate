@@ -1,5 +1,5 @@
--- backfill the auth.identities column by adding an email identity 
--- for all auth.users with an email and password 
+-- backfill the back.identities column by adding an email identity 
+-- for all back.users with an email and password 
 
 do $$
 begin

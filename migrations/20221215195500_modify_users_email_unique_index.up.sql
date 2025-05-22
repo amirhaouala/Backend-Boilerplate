@@ -6,7 +6,7 @@
 alter table only {{ index .Options "Namespace" }}.users
   add column if not exists is_sso_user boolean not null default false;
 
-comment on column {{ index .Options "Namespace" }}.users.is_sso_user is 'Auth: Set this column to true when the account comes from SSO. These accounts can have duplicate emails.';
+comment on column {{ index .Options "Namespace" }}.users.is_sso_user is 'Back: Set this column to true when the account comes from SSO. These accounts can have duplicate emails.';
 
 do $$
 begin
@@ -20,4 +20,4 @@ end $$;
 
 create unique index if not exists users_email_partial_key on {{ index .Options "Namespace" }}.users (email) where (is_sso_user = false);
 
-comment on index {{ index .Options "Namespace" }}.users_email_partial_key is 'Auth: A partial unique index that applies only when is_sso_user is false';
+comment on index {{ index .Options "Namespace" }}.users_email_partial_key is 'Back: A partial unique index that applies only when is_sso_user is false';

@@ -1,4 +1,4 @@
--- Multi-instance mode (see auth.instances) table intentionally not supported and ignored.
+-- Multi-instance mode (see back.instances) table intentionally not supported and ignored.
 
 create table if not exists {{ index .Options "Namespace" }}.sso_providers (
 	id uuid not null,
@@ -9,8 +9,8 @@ create table if not exists {{ index .Options "Namespace" }}.sso_providers (
 	constraint "resource_id not empty" check (resource_id = null or char_length(resource_id) > 0)
 );
 
-comment on table {{ index .Options "Namespace" }}.sso_providers is 'Auth: Manages SSO identity provider information; see saml_providers for SAML.';
-comment on column {{ index .Options "Namespace" }}.sso_providers.resource_id is 'Auth: Uniquely identifies a SSO provider according to a user-chosen resource ID (case insensitive), useful in infrastructure as code.';
+comment on table {{ index .Options "Namespace" }}.sso_providers is 'Back: Manages SSO identity provider information; see saml_providers for SAML.';
+comment on column {{ index .Options "Namespace" }}.sso_providers.resource_id is 'Back: Uniquely identifies a SSO provider according to a user-chosen resource ID (case insensitive), useful in infrastructure as code.';
 
 create unique index if not exists sso_providers_resource_id_idx on {{ index .Options "Namespace" }}.sso_providers (lower(resource_id));
 
@@ -28,7 +28,7 @@ create table if not exists {{ index .Options "Namespace" }}.sso_domains (
 create index if not exists sso_domains_sso_provider_id_idx on {{ index .Options "Namespace" }}.sso_domains (sso_provider_id);
 create unique index if not exists sso_domains_domain_idx on {{ index .Options "Namespace" }}.sso_domains (lower(domain));
 
-comment on table {{ index .Options "Namespace" }}.sso_domains is 'Auth: Manages SSO email address domain mapping to an SSO Identity Provider.';
+comment on table {{ index .Options "Namespace" }}.sso_domains is 'Back: Manages SSO email address domain mapping to an SSO Identity Provider.';
 
 create table if not exists {{ index .Options "Namespace" }}.saml_providers (
 	id uuid not null,
@@ -48,7 +48,7 @@ create table if not exists {{ index .Options "Namespace" }}.saml_providers (
 
 create index if not exists saml_providers_sso_provider_id_idx on {{ index .Options "Namespace" }}.saml_providers (sso_provider_id);
 
-comment on table {{ index .Options "Namespace" }}.saml_providers is 'Auth: Manages SAML Identity Provider connections.';
+comment on table {{ index .Options "Namespace" }}.saml_providers is 'Back: Manages SAML Identity Provider connections.';
 
 create table if not exists {{ index .Options "Namespace" }}.saml_relay_states (
 	id uuid not null,
@@ -67,7 +67,7 @@ create table if not exists {{ index .Options "Namespace" }}.saml_relay_states (
 create index if not exists saml_relay_states_sso_provider_id_idx on {{ index .Options "Namespace" }}.saml_relay_states (sso_provider_id);
 create index if not exists saml_relay_states_for_email_idx on {{ index .Options "Namespace" }}.saml_relay_states (for_email);
 
-comment on table {{ index .Options "Namespace" }}.saml_relay_states is 'Auth: Contains SAML Relay State information for each Service Provider initiated login.';
+comment on table {{ index .Options "Namespace" }}.saml_relay_states is 'Back: Contains SAML Relay State information for each Service Provider initiated login.';
 
 create table if not exists {{ index .Options "Namespace" }}.sso_sessions (
 	id uuid not null,
@@ -86,5 +86,5 @@ create table if not exists {{ index .Options "Namespace" }}.sso_sessions (
 create index if not exists sso_sessions_session_id_idx on {{ index .Options "Namespace" }}.sso_sessions (session_id);
 create index if not exists sso_sessions_sso_provider_id_idx on {{ index .Options "Namespace" }}.sso_sessions (sso_provider_id);
 
-comment on table {{ index .Options "Namespace" }}.sso_sessions is 'Auth: A session initiated by an SSO Identity Provider';
+comment on table {{ index .Options "Namespace" }}.sso_sessions is 'Back: A session initiated by an SSO Identity Provider';
 
