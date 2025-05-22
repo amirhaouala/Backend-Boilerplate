@@ -6,6 +6,9 @@ gotrue.exe
 auth
 auth-arm64
 auth.exe
+back
+back-arm64
+back.exe
 
 coverage.out
 

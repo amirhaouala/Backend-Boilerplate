@@ -1,0 +1,17 @@
+FROM golang:1.23.7-alpine3.20 AS build
+ENV GO111MODULE=on
+ENV CGO_ENABLED=0
+ENV GOOS=linux
+
+RUN apk add --no-cache make
+
+WORKDIR /app
+
+COPY ./Makefile ./go.* .
+RUN make deps
+
+COPY . .
+
+RUN RELEASE_VERSION=unspecified make build
+
+CMD ["sh", "-c", "cp back /shared/back"]

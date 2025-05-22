@@ -17,11 +17,15 @@ DEV_DOCKER_COMPOSE:=docker-compose-dev.yml
 help: ## Show this help.
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {sub("\\\\n",sprintf("\n%22c"," "), $$2);printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
-all: vet sec static build ## Run the tests and build the binary.
+all: vet sec static build build-container ## Run the tests and build the binary.
 
 build: deps ## Build the binary.
-	CGO_ENABLED=0 go build $(FLAGS)
-	CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build $(FLAGS) -o auth-arm64
+	CGO_ENABLED=0 go build $(FLAGS) -o back
+	CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build $(FLAGS) -o back-arm64
+
+build-container: ## Build the binary inside a container.
+	docker build -t back-build -f Dockerfile.build .
+	docker run --rm -u "$(id -u):$(id -g)" -v ".:/shared:Z" back-build
 
 dev-deps: ## Install developer dependencies
 	@go install github.com/gobuffalo/pop/soda@latest
