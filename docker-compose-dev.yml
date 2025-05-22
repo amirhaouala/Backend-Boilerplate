@@ -8,8 +8,8 @@ services:
       context: ./
       dockerfile: Dockerfile.dev
     ports:
-      - '9999:9999'
-      - '9100:9100'
+      - "9999:9999"
+      - "9100:9100"
     environment:
       - GOTRUE_DB_MIGRATIONS_PATH=/go/src/github.com/supabase/auth/migrations
     volumes:
@@ -21,7 +21,7 @@ services:
       dockerfile: Dockerfile.postgres.dev
     container_name: auth_postgres
     ports:
-      - '5432:5432'
+      - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     environment:
@@ -30,5 +30,15 @@ services:
       - POSTGRES_DB=postgres
       # sets the schema name, this should match the `NAMESPACE` env var set in your .env file
       - DB_NAMESPACE=auth
+  pgadmin:
+    container_name: auth_pgadmin
+    depends_on:
+      - postgres
+    image: dpage/pgadmin4
+    ports:
+      - "8080:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@provider.com
+      PGADMIN_DEFAULT_PASSWORD: admin
 volumes:
   postgres_data:
