@@ -2003,6 +2003,9 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/IdentitySchema"
+        ban_duration:
+          type: string
+          example: 3600.s
         banned_until:
           type: string
           format: date-time
