@@ -1949,7 +1949,7 @@ components:
           deprecated: true
         role:
           type: string
-        confirmed:
+        activated:
           type: boolean
         email:
           type: string

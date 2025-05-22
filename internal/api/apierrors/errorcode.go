@@ -48,6 +48,7 @@ const (
 	ErrorCodeSAMLProviderDisabled              ErrorCode = "saml_provider_disabled"
 	ErrorCodeManualLinkingDisabled             ErrorCode = "manual_linking_disabled"
 	ErrorCodeSMSSendFailed                     ErrorCode = "sms_send_failed"
+	ErrorCodeNotActivated                      ErrorCode = "not_activated"
 	ErrorCodeEmailNotConfirmed                 ErrorCode = "email_not_confirmed"
 	ErrorCodePhoneNotConfirmed                 ErrorCode = "phone_not_confirmed"
 	ErrorCodeSAMLRelayStateNotFound            ErrorCode = "saml_relay_state_not_found"

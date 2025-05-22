@@ -2,6 +2,7 @@ package api
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 	"time"
 
@@ -22,7 +23,7 @@ import (
 type AdminUserParams struct {
 	Id           string                 `json:"id"`
 	Aud          string                 `json:"aud"`
-	Confirmed    *bool                  `json:"confirmed"`
+	Activated    *bool                  `json:"activated"`
 	Role         string                 `json:"role"`
 	Email        string                 `json:"email"`
 	Phone        string                 `json:"phone"`
@@ -190,8 +191,10 @@ func (a *API) adminUserUpdate(w http.ResponseWriter, r *http.Request) error {
 	}
 
 	err = db.Transaction(func(tx *storage.Connection) error {
-		if params.Confirmed != nil {
-			if terr := user.SetConfirmed(tx, params.Confirmed); terr != nil {
+		fmt.Println("params.Activated")
+		fmt.Println(params.Activated)
+		if params.Activated != nil {
+			if terr := user.SetActivated(tx, params.Activated); terr != nil {
 				return terr
 			}
 		}

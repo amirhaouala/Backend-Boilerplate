@@ -41,7 +41,7 @@ type User struct {
 
 	// For backward compatibility only. Use EmailConfirmedAt or PhoneConfirmedAt instead.
 	ConfirmedAt *time.Time `json:"confirmed_at,omitempty" db:"confirmed_at" rw:"r"`
-	Confirmed   bool       `json:"confirmed" db:"confirmed"`
+	Activated   bool       `json:"activated" db:"activated"`
 
 	RecoveryToken  string     `json:"-" db:"recovery_token"`
 	RecoverySentAt *time.Time `json:"recovery_sent_at,omitempty" db:"recovery_sent_at"`
@@ -133,7 +133,7 @@ func NewUser(name string, phone, email, password, aud string, userData map[strin
 		Phone:             storage.NullString(phone),
 		UserMetaData:      userData,
 		EncryptedPassword: &passwordHash,
-		Confirmed:         false,
+		Activated:         false,
 	}
 	return user, nil
 }
@@ -206,10 +206,10 @@ func (u *User) IsPhoneConfirmed() bool {
 	return u.PhoneConfirmedAt != nil
 }
 
-// SetConfirmed sets the users confirmed to true or false
-func (u *User) SetConfirmed(tx *storage.Connection, confirmed *bool) error {
-	u.Confirmed = *confirmed
-	return tx.UpdateOnly(u, "confirmed")
+// SetConfirmed sets the user's activated to true or false
+func (u *User) SetActivated(tx *storage.Connection, activated *bool) error {
+	u.Activated = *activated
+	return tx.UpdateOnly(u, "activated")
 }
 
 // SetRole sets the users Role to roleName
