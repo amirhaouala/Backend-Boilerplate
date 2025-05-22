@@ -46,7 +46,7 @@ func (ts *AdminTestSuite) SetupTest() {
 	models.TruncateAll(ts.API.db)
 	ts.Config.External.Email.Enabled = true
 	claims := &AccessTokenClaims{
-		Role: "supabase_admin",
+		Role: "admin",
 	}
 	token, err := jwt.NewWithClaims(jwt.SigningMethodHS256, claims).SignedString([]byte(ts.Config.JWT.Secret))
 	require.NoError(ts.T(), err, "Error generating admin jwt")

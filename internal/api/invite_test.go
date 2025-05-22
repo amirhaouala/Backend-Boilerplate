@@ -57,7 +57,7 @@ func (ts *InviteTestSuite) makeSuperAdmin(email string) string {
 	require.NoError(ts.T(), err, "Error making new user")
 	require.NoError(ts.T(), ts.API.db.Create(u))
 
-	u.Role = "supabase_admin"
+	u.Role = "admin"
 
 	var token string
 

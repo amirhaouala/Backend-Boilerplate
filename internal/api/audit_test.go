@@ -45,7 +45,7 @@ func (ts *AuditTestSuite) makeSuperAdmin(email string) string {
 	u, err := models.NewUser("", "", email, "test", ts.Config.JWT.Aud, map[string]interface{}{"full_name": "Test User"})
 	require.NoError(ts.T(), err, "Error making new user")
 
-	u.Role = "supabase_admin"
+	u.Role = "admin"
 	require.NoError(ts.T(), ts.API.db.Create(u))
 
 	session, err := models.NewSession(u.ID, nil)
@@ -86,7 +86,7 @@ func (ts *AuditTestSuite) TestAuditGet() {
 
 	require.Len(ts.T(), logs, 1)
 	require.Contains(ts.T(), logs[0].Payload, "actor_username")
-	assert.Equal(ts.T(), "supabase_admin", logs[0].Payload["actor_username"])
+	assert.Equal(ts.T(), "admin", logs[0].Payload["actor_username"])
 	traits, ok := logs[0].Payload["traits"].(map[string]interface{})
 	require.True(ts.T(), ok)
 	require.Contains(ts.T(), traits, "user_email")
@@ -115,7 +115,7 @@ func (ts *AuditTestSuite) TestAuditFilters() {
 
 		require.Len(ts.T(), logs, 1)
 		require.Contains(ts.T(), logs[0].Payload, "actor_username")
-		assert.Equal(ts.T(), "supabase_admin", logs[0].Payload["actor_username"])
+		assert.Equal(ts.T(), "admin", logs[0].Payload["actor_username"])
 		traits, ok := logs[0].Payload["traits"].(map[string]interface{})
 		require.True(ts.T(), ok)
 		require.Contains(ts.T(), traits, "user_email")

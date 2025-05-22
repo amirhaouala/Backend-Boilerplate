@@ -868,8 +868,8 @@ if AUTOCONFIRM is enabled and the sign up is a duplicate, then the endpoint will
 
 ```json
 {
-  "code":400,
-  "msg":"User already registered"
+  "code": 400,
+  "msg": "User already registered"
 }
 ```
 
@@ -902,7 +902,7 @@ returns:
 ### **POST /invite**
 
 Invites a new user with an email.
-This endpoint requires the `service_role` or `supabase_admin` JWT set as an Auth Bearer header:
+This endpoint requires the `service_role` or `admin` JWT set as an Auth Bearer header:
 
 e.g.
 

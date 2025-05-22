@@ -248,7 +248,7 @@ func (ts *AnonymousTestSuite) TestRateLimitAnonymousSignups() {
 
 func (ts *AnonymousTestSuite) TestAdminUpdateAnonymousUser() {
 	claims := &AccessTokenClaims{
-		Role: "supabase_admin",
+		Role: "admin",
 	}
 	adminJwt, err := jwt.NewWithClaims(jwt.SigningMethodHS256, claims).SignedString([]byte(ts.Config.JWT.Secret))
 	require.NoError(ts.T(), err)
