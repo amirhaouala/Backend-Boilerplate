@@ -16,7 +16,7 @@ do $$ begin
     alter table {{ index .Options "Namespace" }}.flow_state enable row level security;
     alter table {{ index .Options "Namespace" }}.identities enable row level security;
     alter table {{ index .Options "Namespace" }}.one_time_tokens enable row level security;
-    -- allow postgres role to select from auth tables and allow it to grant select to other roles
+    alter table {{ index .Options "Namespace" }}.questions enable row level security;
     -- allow postgres role to select from back tables and allow it to grant select to other roles
     grant select on {{ index .Options "Namespace" }}.schema_migrations to postgres with grant option;
     grant select on {{ index .Options "Namespace" }}.instances to postgres with grant option;
@@ -34,4 +34,5 @@ do $$ begin
     grant select on {{ index .Options "Namespace" }}.flow_state to postgres with grant option;
     grant select on {{ index .Options "Namespace" }}.identities to postgres with grant option;
     grant select on {{ index .Options "Namespace" }}.one_time_tokens to postgres with grant option;
+    grant select on {{ index .Options "Namespace" }}.questions to postgres with grant option;
 end $$;

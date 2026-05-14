@@ -89,3 +89,11 @@ $$ language sql stable;
 create or replace function {{ index .Options "Namespace" }}.role() returns text as $$
   select nullif(current_setting('request.jwt.claim.role', true), '')::text;
 $$ language sql stable;
+
+CREATE TABLE IF NOT EXISTS {{ index .Options "Namespace" }}.questions (
+	id uuid NOT NULL UNIQUE,
+	question varchar(255) NULL,
+	propositions jsonb NULL,
+	created_at timestamptz NULL,
+	updated_at timestamptz NULL
+);

@@ -249,6 +249,13 @@ func NewAPIWithVersion(globalConfig *conf.GlobalConfiguration, db *storage.Conne
 			})
 		})
 
+		r.With(api.requireAuthentication).Route("/questions", func(r *router) {
+			r.Use(api.isValidExternalHost)
+			r.Use(api.requireNotAnonymous)
+			// Rate Limiting needs to be added
+			r.Get("/", api.questions)
+		})
+
 		r.Route("/admin", func(r *router) {
 			r.Use(api.requireAdminCredentials)
 
